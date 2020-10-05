@@ -3,6 +3,9 @@
 /*     Copyright (c) 2018 monitor1394     */
 /*     https://github.com/monitor1394     */
 /*                                        */
+/*     Minor changes by Katata Games      */
+/*     https://katata.games               */
+/*                                        */
 /******************************************/
 
 using System.IO;
@@ -189,36 +192,43 @@ public class ExportScene : EditorWindow
 
     private static void ExportMeshToObj(GameObject obj, Mesh mesh, ref StreamWriter writer, ref int vertexOffset)
     {
-        Quaternion r = obj.transform.localRotation;
-        StringBuilder sb = new StringBuilder();
-        foreach (Vector3 vertice in mesh.vertices)
+        try
         {
-            Vector3 v = obj.transform.TransformPoint(vertice);
-            UpdateAutoCutRect(v);
-            sb.AppendFormat("v {0} {1} {2}\n", -v.x, v.y, v.z);
-        }
-        foreach (Vector3 nn in mesh.normals)
-        {
-            Vector3 v = r * nn;
-            sb.AppendFormat("vn {0} {1} {2}\n", -v.x, -v.y, v.z);
-        }
-        foreach (Vector3 v in mesh.uv)
-        {
-            sb.AppendFormat("vt {0} {1}\n", v.x, v.y);
-        }
-        for (int i = 0; i < mesh.subMeshCount; i++)
-        {
-            int[] triangles = mesh.GetTriangles(i);
-            for (int j = 0; j < triangles.Length; j += 3)
+            Quaternion r = obj.transform.localRotation;
+            StringBuilder sb = new StringBuilder();
+            foreach (Vector3 vertice in mesh.vertices)
             {
-                sb.AppendFormat("f {1} {0} {2}\n",
-                    triangles[j] + 1 + vertexOffset,
-                    triangles[j + 1] + 1 + vertexOffset,
-                    triangles[j + 2] + 1 + vertexOffset);
+                Vector3 v = obj.transform.TransformPoint(vertice);
+                UpdateAutoCutRect(v);
+                sb.AppendFormat("v {0} {1} {2}\n", -v.x, v.y, v.z);
             }
+            foreach (Vector3 nn in mesh.normals)
+            {
+                Vector3 v = r * nn;
+                sb.AppendFormat("vn {0} {1} {2}\n", -v.x, -v.y, v.z);
+            }
+            foreach (Vector3 v in mesh.uv)
+            {
+                sb.AppendFormat("vt {0} {1}\n", v.x, v.y);
+            }
+            for (int i = 0; i < mesh.subMeshCount; i++)
+            {
+                int[] triangles = mesh.GetTriangles(i);
+                for (int j = 0; j < triangles.Length; j += 3)
+                {
+                    sb.AppendFormat("f {1} {0} {2}\n",
+                        triangles[j] + 1 + vertexOffset,
+                        triangles[j + 1] + 1 + vertexOffset,
+                        triangles[j + 2] + 1 + vertexOffset);
+                }
+            }
+            vertexOffset += mesh.vertices.Length;
+            writer.Write(sb.ToString());
+            }
+        catch
+        {
+            return;
         }
-        vertexOffset += mesh.vertices.Length;
-        writer.Write(sb.ToString());
     }
 
     private static void ExportTerrianToObj(TerrainData terrain, Vector3 terrainPos,
