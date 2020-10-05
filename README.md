@@ -1,57 +1,58 @@
-﻿
 # ExportSceneToObj
 
-一款用于导出场景（包括`GameObject`和`Terrian`）或到`.fbx`模型`.obj`文件的`Unity`插件。
+A plug-in for exporting Unity scenes (including GameObjects and Terrain) as `.fbx` model or `.obj` files.
 
-## 功能
+This plugin was developed by [monitor1394](https://github.com/monitor1394/ExportSceneToObj) and all rights belong to them.
+There was a problem when the export process would stop running if one mesh failed to export, this is fixed now.
+README is translated mostly using Google Translate.
+It is missing the part about `fbx` export since it didn't translate well.
 
-* 支持导出物件和地形
-* 支持自定义裁剪区域
-* 支持自动裁剪功能
-* 支持单个选择导出
-* 支持导出`.fbx`模型
+Feel free to create issues if you find any mistakes or PRs if you want to contribute.
+Please also contribute to the original repo.
 
-## 截图
+Also please star the original repo even if you're using this one.
+
+## Features
+
+* Supports exporting objects and terrain
+* Supports custom crop area
+* Supports auto crop function
+* Supports single selection export
+* Supports export as an `.fbx` model
+
+
+## Screenshots
 
 <img src="Documentation/screenshot/scene.jpg" width="1024" height="auto"/>
 <img src="Documentation/screenshot/export.jpg" width="1024" height="auto"/>
 <img src="Documentation/screenshot/part.jpg" width="1024" height="auto"/>
 <img src="Documentation/screenshot/select.jpg" width="1024" height="auto"/>
 
-## 用法
+## Installation
 
-* 通过下载源码或`unitypackage`包导入到你的项目中（放在`Assets`目录下）。如果你是`2018.3`及以上版本，强烈建议通过`Package Manager`的`Git`来导入包（也可以下载后本地安装包）：
+### Unitypackage
 
-  1. 打开`Packages`目录下的`manifest.json`文件，在`dependencies`下加入：
-  ``` json
-     "com.monitor1394.exportscenetoobj": "https://github.com/monitor1394/ExportSceneToObj.git",
-  ```
-  2. 回到`Unity`，可能会花1分钟左右进行下载和编译，成功后就可以开始使用了。
-  3. 如果要删除`ExportSceneToObj`，删除掉1步骤所加的内容即可。
-  4. 如果要更新`ExportSceneToObj`，删除`manifest.json`文件的`lock`下的`com.monitor1394.exportscenetoobj`相关内容即会从新下载编译。
+* Download latest `.unitypackage` from Releases.
+* Import to Unity via `Assets` -> `Import Package` -> `Custom Package...`
 
-* 如果要自定义裁剪区域的话，场景中增加空`GameObject`用于表示裁剪区域（需要左下角和右上角两个空`GameObject`），并修改代码中`CUT_LB_OBJ_PATH`和`CUT_RT_OBJ_PATH`为对应的路径
-* 在`Unity`的菜单栏上有`ExportScene`菜单即可
-* 怎么单独导出`.fbx`模型？
-    1. 将`.fbx`拖到场景中
-    2. 在`Hierarchy`试图中选中`fbx`的`GameObject`，右键执行`ExportScene` --> `ExportSelectedObj`单独导出即可
+### Direct
 
-## 其他
+* Download source folder.
+* Unpack it and paste to your `Assets` folder.
 
-1. 目前判断物件是否在裁剪区域只是判断物件的坐标是否在区域内，还没有实现物件边界裁剪。
-2. 只有包含`MeshFilter`、`SkinnedMeshRenderer`、`Terrian`的物件才会被导出。
+## Usage
 
-## 问题
+Use `ExportScene` menu in the top menu bar in Unity.
 
-1. 为什么将脚本放入项目中后菜单栏还是看不到`ExportScene`菜单项？  
-   答：脚本文件放到正确的目录，同时要检查是否有其他脚本有报错没有编译通过，有报错时先要处理报错。  
+If you want to customize the cropping area, add an empty space `GameObject` in the scene to represent the cropping area (you need to have empty space in the lower left corner and the upper right corner GameObject), and change `CUT_LB_OBJ_PATH` and `CUT_RT_OBJ_PATH` to corresponding path.
 
-2. 为什么导出的`obj`文件在`Maya`等`3D`软件中显示正常,但在`3d Max`显示异常？  
-   答：`3d Max`导入设置中勾选`Import as single mesh`选项。  
+## Misc
 
-## 觉得有用的朋友帮忙点个star吧
+* Only objects which contain a `MeshFilter`, `SkinnedMeshRenderer`, or `Terrain` will be exported.
+* Currently, whether the object is in the clipping area is only judged by whether the coordinates of the object are in the area. Boundary clipping of the object is not handled.
+* For correct import into 3ds Max, check `Import as single mesh` option in the import settings.
 
-## 参考
+## References
 
 1. [ExportOBJ](http://wiki.unity3d.com/index.php?title=ExportOBJ)
 2. [TerrainObjExporter](http://wiki.unity3d.com/index.php?title=TerrainObjExporter)
