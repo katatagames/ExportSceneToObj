@@ -234,8 +234,8 @@ public class ExportScene : EditorWindow
     private static void ExportTerrianToObj(TerrainData terrain, Vector3 terrainPos,
         ref StreamWriter writer, ref int vertexOffset, bool autoCut)
     {
-        int tw = terrain.heightmapWidth;
-        int th = terrain.heightmapHeight;
+        int tw = terrain.heightmapResolution;
+        int th = terrain.heightmapResolution;
 
         Vector3 meshScale = terrain.size;
         meshScale = new Vector3(meshScale.x / (tw - 1), meshScale.y, meshScale.z / (th - 1));
@@ -340,8 +340,8 @@ public class ExportScene : EditorWindow
     private static Vector2 GetTerrainBoundPos(Vector3 worldPos, TerrainData terrain, Vector3 terrainPos)
     {
         Vector3 tpos = worldPos - terrainPos;
-        return new Vector2((int)(tpos.x / terrain.size.x * terrain.heightmapWidth),
-            (int)(tpos.z / terrain.size.z * terrain.heightmapHeight));
+        return new Vector2((int)(tpos.x / terrain.size.x * terrain.heightmapResolution),
+            (int)(tpos.z / terrain.size.z * terrain.heightmapResolution));
     }
 
     private static Vector3 GetObjPos(string path)
